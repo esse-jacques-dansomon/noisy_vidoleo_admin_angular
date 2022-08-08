@@ -101,11 +101,13 @@ export class CategoryListComponent implements OnInit {
         next: (data)=> {
           this.formLoading = false;
           this.getCategories();
+          this.categoryUpdateId = null;
           this.form.reset();
           this.toastr.success('Category created successfully', 'Success');
         },
         error: (err)=> {
           this.formLoading = false;
+          this.categoryUpdateId = null;
           this.toastr.error('Something went wrong', 'Error');
         }
       }
@@ -119,6 +121,7 @@ export class CategoryListComponent implements OnInit {
     else{
       this.create();
     }
+    this.categoryUpdateId = null;
 
   }
 

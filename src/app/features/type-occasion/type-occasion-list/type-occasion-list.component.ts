@@ -116,6 +116,7 @@ export class TypeOccasionListComponent implements OnInit {
     }else{
       this.create();
     }
+    this.resetForm();
   }
 
   onUpdateButtonClicked(occasion : OccasionType){

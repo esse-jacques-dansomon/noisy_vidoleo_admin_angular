@@ -1,75 +1,110 @@
 <!--breadcrumb-->
-<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-  <div class="breadcrumb-title pe-3">Categories</div>
-  <div class="ps-3">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
-        <li class="breadcrumb-item active" aria-current="page">Categories</li>
-      </ol>
-    </nav>
-  </div>
-</div>
+<app-breadcrumb breadcrumb="Sous Categories"></app-breadcrumb>
+
 <!--end breadcrumb-->
 <div class="card">
-  <div class="card-body">
-    <div class="d-lg-flex align-items-center mb-4 gap-3">
-      <div class="position-relative">
-        <input (ngModelChange)="search()" type="text" [(ngModel)]="searchText" class="form-control ps-5 radius-30" placeholder="Rechercher un utilisateur">
-        <span class="position-absolute top-50 product-show translate-middle-y">
+  <div class="card-body p-4">
+    <div class="form-body mt-4">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="border border-3 p-4 rounded">
+            <form [formGroup]="form" (ngSubmit)="form.valid && submitForm()">
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label for="inputPrice" class="form-label">Nom</label>
+                  <input  formControlName="name" type="text"  [ngClass]="validateFormControlName('name')"
+                          class="form-control" id="inputPrice" placeholder="anniversaire" >
+                </div>
+                <div class="col-md-3">
+                  <label for="inputCompareatprice" class="form-label">Description</label>
+                  <input formControlName="description"  [ngClass]="validateFormControlName('description')"
+                         type="textarea" class="form-control" id="inputCompareatprice" placeholder="description"  >
+                </div>
+                <div class="col-md-3">
+                  <label for="occasion_type_id" class="form-label">categorie</label>
+                  <select *ngIf="categories$  |async as  roles" formControlName="category_id"  [ngClass]="validateFormControlName('category_id')" class="form-select" id="occasion_type_id">
+                    <option   *ngFor="let subCategory of roles"  value="{{subCategory.id}}">{{subCategory.name}}</option>
+                  </select>
+                </div>
+                <div class="col-md-2 mt-5">
+                  <div class="d-grid" >
+                    <button *ngIf="!formLoading" type="submit" [disabled]="form.invalid" class="btn btn-primary">Enregistrer</button>
+                    <app-loader-submit [isLoading]="formLoading"></app-loader-submit>
+                  </div>
+                </div>
+                <div class="col-md-1 mt-5">
+                  <div class="d-grid" >
+                    <button type="" (click)="reset()" [disabled]="form.invalid" class="btn btn-outline-dark">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-12 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-lg-flex align-items-center mb-4 gap-3">
+                <div class="position-relative">
+                  <input (ngModelChange)="search()" type="text" [(ngModel)]="searchText" class="form-control ps-5 radius-30" placeholder="Rechercher un utilisateur">
+                  <span class="position-absolute top-50 product-show translate-middle-y">
             <i class="bx bx-search"></i>
           </span>
+                </div>
+              </div>
+              <div class="table-responsive" *ngIf="subCategories$ | async as categories">
+                <table class="table mb-0">
+                  <thead class="table-light">
+                  <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>categorie</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let category of categories">
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div>
+                          <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
+                        </div>
+                        <div class="ms-2">
+                          <h6 class="mb-0 font-14">{{category.name}}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{category.description}}</td>
+                    <td>{{category.category.name}}</td>
+
+                    <td>
+                      <div class="d-flex order-actions">
+                        <a (click)="onUpdateButtonCLicked(category)" class=""><i class='bx bxs-edit'></i></a>
+                        <a (click)="delete(category.id)" class="ms-3"><i class='bx bxs-trash'></i></a>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <nav class="my-4" aria-label="...">
+                <ul class="pagination pagination-sm">
+                  <li class="page-item"  [ngClass]="{'disabled': meta.current_page===1}">
+                    <a  href="javascript:;" (click)="loadPage(1)" class="page-link"
+                        tabindex="-1" >Précedent</a>
+                  </li>
+                  <li class="page-item" [ngClass]="{'active': i+1 === meta.current_page}"  *ngFor="let item of [].constructor(meta.last_page); let i = index">
+                    <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
+                  </li>
+                  <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
+                    <a (click)="loadPage(meta.last_page)"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="ms-auto"><a href="" routerLink="/dashboard/utilisateurs/ajouter/" class="btn btn-primary radius-30 mt-2 mt-lg-0">
-        <i class="bx bxs-plus-square"></i>Ajouter un utilisateur</a></div>
     </div>
-    <div class="table-responsive" *ngIf="subCategories$ | async as categories">
-      <table class="table mb-0">
-        <thead class="table-light">
-        <tr>
-          <th>Nom</th>
-          <th>Slug</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let category of categories">
-          <td>
-            <div class="d-flex align-items-center">
-              <div>
-                <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
-              </div>
-              <div class="ms-2">
-                <h6 class="mb-0 font-14">{{category.name}}</h6>
-              </div>
-            </div>
-          </td>
-          <td>{{category.slug}}</td>
-          <td>{{category.description}}</td>
-          <td>
-            <div class="d-flex order-actions">
-              <a (click)="update(category.id)" class=""><i class='bx bxs-edit'></i></a>
-              <a (click)="delete(category.id)" class="ms-3"><i class='bx bxs-trash'></i></a>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <nav class="my-4" aria-label="...">
-      <ul class="pagination pagination-sm">
-        <li class="page-item"  [ngClass]="{'disabled': meta.current_page===1}">
-          <a  href="javascript:;" (click)="loadPage(1)" class="page-link"
-              tabindex="-1" >Précedent</a>
-        </li>
-        <li class="page-item" [ngClass]="{'active': i+1 === meta.current_page}"  *ngFor="let item of [].constructor(meta.last_page); let i = index">
-          <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
-          <a (click)="loadPage(meta.last_page)"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
-      </ul>
-    </nav>
   </div>
 </div>
 

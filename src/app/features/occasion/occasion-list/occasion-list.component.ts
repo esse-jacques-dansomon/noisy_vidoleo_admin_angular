@@ -145,6 +145,7 @@ export class OccasionListComponent implements OnInit {
     }else{
       this.submit();
     }
+    this.resetForm();
   }
 
   submit(){
