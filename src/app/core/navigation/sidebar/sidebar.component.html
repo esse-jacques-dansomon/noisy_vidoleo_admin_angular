@@ -1,0 +1,94 @@
+<!--sidebar wrapper -->
+<div class="sidebar-wrapper" data-simplebar="true">
+  <div class="sidebar-header">
+<!--    <div>-->
+<!--      <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">-->
+<!--    </div>-->
+    <div>
+      <h4 class="logo-text">Noisy Vidoleo</h4>
+    </div>
+    <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+    </div>
+  </div>
+  <!--navigation-->
+  <ul class="metismenu" id="menu">
+    <li>
+      <a  class="has-arrow">
+        <div class="parent-icon"><i class='bx bx-home-circle'></i>
+        </div>
+        <div class="menu-title">Dashboard</div>
+      </a>
+      <ul>
+        <li> <a routerLink="/dashboard/" routerLinkActive="active"><i class="bx bx-right-arrow-alt"></i>Mon profile</a>
+        </li>
+        <li> <a routerLink="/dashboard/statistiques/" routerLinkActive="active"><i class="bx bx-right-arrow-alt"></i>Statistiques</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a class="has-arrow">
+        <div class="parent-icon"><i class="bx bx-category"></i>
+        </div>
+        <div class="menu-title">Utilisateurs</div>
+      </a>
+      <ul>
+        <li> <a routerLink="/dashboard/utilisateurs/" routerLinkActive="active" ><i class="bx bx-right-arrow-alt"></i>utilisateurs</a></li>
+        <li> <a routerLink="/dashboard/utilisateurs/ajouter" routerLinkActive="active"><i class="bx bx-right-arrow-alt"></i>ajouter un client</a></li>
+      </ul>
+    </li>
+    <li>
+      <a class="has-arrow">
+        <div class="parent-icon"><i class="bx bx-category"></i>
+        </div>
+        <div class="menu-title">Demandes</div>
+      </a>
+      <ul>
+
+        <li> <a routerLink="/dashboard/demandes/" routerLinkActive="active" ><i class="bx bx-right-arrow-alt"></i>Demandes Videos</a></li>
+        <li> <a routerLink="/dashboard/occasions/" routerLinkActive="active" ><i class="bx bx-right-arrow-alt"></i>Occasions</a></li>
+        <li> <a routerLink="/dashboard/types-occasions/" routerLinkActive="active"><i class="bx bx-right-arrow-alt"></i>Types Occasions</a></li>
+        <li> <a routerLink="/dashboard/options/" routerLinkActive="active"><i class="bx bx-right-arrow-alt"></i>Options</a></li>
+      </ul>
+    </li>
+
+    <li class="menu-label">Ressources</li>
+    <li>
+      <a routerLink="/dashboard/creators/" routerLinkActive="active">
+        <div class="parent-icon"><i class="bx bx-user-circle"></i>
+        </div>
+        <div class="menu-title">Createurs</div>
+      </a>
+    </li>
+    <li>
+      <a  routerLink="/dashboard/categories/" routerLinkActive="active" >
+        <div class="parent-icon"> <i class="bx bx-video-recording"></i>
+        </div>
+        <div class="menu-title">Categories</div>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/sub-categories/" routerLinkActive="active">
+        <div class="parent-icon"><i class="bx bx-support"></i>
+        </div>
+        <div class="menu-title">Sous Categories</div>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/devenir-createurs/" routerLinkActive="active">
+        <div class="parent-icon"><i class="bx bx-user-circle"></i>
+        </div>
+        <div class="menu-title">Célebrités </div>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/retraits/" routerLinkActive="active">
+        <div class="parent-icon"> <i class="bx bx-video-recording"></i>
+        </div>
+        <div class="menu-title">Retraits</div>
+      </a>
+    </li>
+  </ul>
+  <!--end navigation-->
+</div>
+<!--end sidebar wrapper -->

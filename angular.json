@@ -31,7 +31,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -107,5 +108,7 @@
       }
     }
   },
-  "defaultProject": "noisy_vidoleo_admin_2"
+  "cli": {
+    "analytics": false
+  }
 }

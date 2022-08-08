@@ -1,0 +1,91 @@
+
+<div >
+  <!--breadcrumb-->
+<app-breadcrumb [breadcrumb]="'créateurs'"></app-breadcrumb>
+<!--end breadcrumb-->
+<div class="card">
+  <div class="text-center" *ngIf="isLoading">
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+  <div *ngIf="!isLoading" class="card-body">
+    <div class="d-lg-flex align-items-center mb-4 gap-3">
+      <div class="position-relative">
+        <input (change)="search()" type="text" [(ngModel)]="searchText" class="form-control ps-5 radius-30" placeholder="Rechercher un créateur">
+        <span class="position-absolute top-50 product-show translate-middle-y">
+            <i class="bx bx-search"></i>
+          </span>
+      </div>
+    </div>
+    <div class="table-responsive" *ngIf="creators$ | async as users">
+      <table class="table mb-0" >
+        <thead class="table-light">
+        <tr>
+          <th>Pseudo</th>
+          <th>Email</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Phone</th>
+          <th>Bloqué</th>
+          <th>Dispo</th>
+          <th>Vedette</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.pseudo_social_network}}</td>
+          <td>
+            <div class="d-flex align-items-center">
+
+              <div class="ms-0">
+                <h6 class="mb-0 font-14">{{user.email}}</h6>
+              </div>
+            </div>
+          </td>
+          <td>{{user.last_name}}</td>
+          <td>{{user.first_name}}</td>
+          <td>{{user.phone}}</td>
+          <td>
+            <div class="form-check form-switch">
+              <input (click)="block(user)" class="form-check-input" [checked]="user.is_blocked" type="checkbox" role="switch" id="{{user.id}}">
+            </div>
+          </td>
+          <td>
+          <div class="form-check form-switch">
+            <input  (click)="disponibility(user)"class="form-check-input"  [disabled]="user.is_blocked" [checked]="user.is_available" type="checkbox" role="switch" id="{{user.id}}">
+          </div>
+        </td>
+          <td>
+          <div class="form-check form-switch">
+            <input (click)="vedette(user)" class="form-check-input"  [disabled]="user.is_blocked" [checked]="user.is_featured" type="checkbox" role="switch" id="{{user.id}}">
+          </div>
+        </td>
+
+<!--          <td>-->
+<!--            <div class="d-flex order-actions">-->
+<!--              <a (click)="update(user)" class=""><i class='bx bxs-show'></i></a>-->
+<!--              <a (click)="update(user)" class="ms-2"><i class='bx bxs-edit'></i></a>-->
+<!--            </div>-->
+<!--          </td>-->
+        </tr>
+        </tbody>
+      </table >
+    </div>
+    <nav class="my-4" aria-label="...">
+      <ul class="pagination pagination-sm">
+        <li class="page-item"  [ngClass]="{'disabled': meta.current_page===1}">
+          <a  href="javascript:;" (click)="loadPage(1)" class="page-link"
+              tabindex="-1" >Précedent</a>
+        </li>
+        <li class="page-item" [ngClass]="{'active': i+1 === meta.current_page}"  *ngFor="let item of [].constructor(meta.last_page); let i = index">
+          <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
+          <a (click)="loadPage(meta.last_page)"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+</div>

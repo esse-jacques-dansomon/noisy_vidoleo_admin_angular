@@ -1,0 +1,89 @@
+<!--breadcrumb-->
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">eCommerce</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a href="javascript:;">
+              <i class="bx bx-home-alt"></i></a>
+            </li>
+<!--            <li class="breadcrumb-item active" aria-current="page">Add New Product</li>-->
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!--end breadcrumb-->
+
+    <div class="card">
+      <div class="card-body p-4">
+        <h5 class="card-title">Ajouter un utilisateur</h5>
+        <hr/>
+        <form [formGroup]="userForm" (ngSubmit)="userForm.valid && userFormSubmit()">
+        <div class="form-body mt-4">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="border border-3 p-4 rounded">
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input formControlName="first_name" type="text" [ngClass]="validateFormControlName('first_name')" class="form-control " id="nom" placeholder="Entrer votre nom">
+                    <div class="text-danger mt-2" *ngIf="this.userForm.get('first_name').invalid && (this.userForm.get('first_name').touched||this.userForm.get('first_name').dirty)">
+                      <span *ngIf="this.userForm.get('first_name').errors['required']">Ce champ est obligatoire</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label for="prenom" class="form-label">Prenom</label>
+                    <input formControlName="last_name" [ngClass]="validateFormControlName('last_name')" type="text" class="form-control" id="prenom" placeholder="Entrer votre prénom">
+                    <div class="text-danger mt-2" *ngIf="this.userForm.get('last_name').invalid && (this.userForm.get('last_name').touched||this.userForm.get('last_name').dirty)">
+                      <span *ngIf="this.userForm.get('last_name').errors['required']">Ce champ est obligatoire</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label for="email" class="form-label">Adresse Email</label>
+                    <input formControlName="email" [ngClass]="validateFormControlName('email')"type="email" class="form-control" id="email" placeholder="exemple@gmail.com">
+                    <div class="text-danger mt-2" *ngIf="this.userForm.get('email').invalid && (this.userForm.get('email').touched||this.userForm.get('email').dirty)">
+                      <span *ngIf="this.userForm.get('email').errors['email']">Ce champ doit contenir un email</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label for="password" class="form-label">password</label>
+                    <input formControlName="password" [ngClass]="validateFormControlName('password')" type="password" class="form-control" id="password" placeholder="password">
+                    <div class="text-danger mt-2" *ngIf="this.userForm.get('password').invalid && (this.userForm.get('password').touched||this.userForm.get('password').dirty)">
+                      <span *ngIf="this.userForm.get('password').errors['required']">Ce champ est obligatoire</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label for="confirmedPassword" class="form-label">password</label>
+                    <input formControlName="confirmedPassword" [ngClass]="validateFormControlName('confirmedPassword')" type="password" class="form-control" id="confirmedPassword" placeholder="password">
+                    <div class="text-danger mt-2" *ngIf="this.userForm.get('confirmedPassword').invalid && (this.userForm.get('confirmedPassword').touched||this.userForm.get('confirmedPassword').dirty)">
+                      <span *ngIf="this.userForm.get('confirmedPassword').errors['required']">Ce champ est obligatoire</span>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputCollection" class="form-label">Role</label>
+                    <select *ngIf="roles$ | async as roles" formControlName="role_id" [ngClass]="validateFormControlName('role_id')" class="form-select" id="inputCollection">
+                      <option *ngFor="let role of roles"  value="{{role.id}}">{{role.name}}</option>
+                    </select>
+                    <div class="text-danger mt-2" *ngIf="this.userForm.get('role_id').invalid && (this.userForm.get('role_id').touched||this.userForm.get('role_id').dirty)">
+                      <span *ngIf="this.userForm.get('role_id').errors['required']">Ce champ est obligatoire</span>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-grid">
+                      <button  *ngIf="!isLoading" type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Ajouter</button>
+                      <button   *ngIf="isLoading"  class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!--end row-->
+        </div>
+        </form>
+      </div>
+    </div>
+
+

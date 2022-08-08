@@ -1,0 +1,72 @@
+<!--<app-loader *ngIf="isLoading"></app-loader>-->
+
+<!--breadcrumb-->
+<div *ngIf="!isLoading">
+
+  <app-breadcrumb [breadcrumb]="'utilisateurs'"></app-breadcrumb>
+
+  <!--end breadcrumb-->
+  <div class="card" >
+    <div class="card-body">
+      <div class="d-lg-flex align-items-center mb-4 gap-3">
+        <div class="position-relative">
+          <input (ngModelChange)="search()" type="text" [(ngModel)]="searchText" class="form-control ps-5 radius-30" placeholder="Rechercher un utilisateur">
+          <span class="position-absolute top-50 product-show translate-middle-y">
+            <i class="bx bx-search"></i>
+          </span>
+        </div>
+        <div class="ms-auto"><a href="" routerLink="/dashboard/utilisateurs/ajouter/" class="btn btn-primary radius-30 mt-2 mt-lg-0">
+          <i class="bx bxs-plus-square"></i>Ajouter un utilisateur</a></div>
+      </div>
+      <div class="table-responsive" *ngIf="users$ | async as users">
+        <table class="table mb-0">
+          <thead class="table-light">
+          <tr>
+            <th>Email</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of users">
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-2">
+                  <h6 class="mb-0 font-14">{{user.email}}</h6>
+                </div>
+              </div>
+            </td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.first_name}}</td>
+            <td><div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
+              <i class='bx bxs-circle me-1'></i>{{user.role.name}}</div></td>
+            <td>
+              <div class="d-flex order-actions">
+                <a (click)="updateUser(user.id)" class=""><i class='bx bxs-edit'></i></a>
+                <a (click)="deleteUser(user.id)" class="ms-3"><i class='bx bxs-trash'></i></a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table >
+      </div>
+      <nav class="my-4" aria-label="...">
+        <ul class="pagination pagination-sm">
+          <li class="page-item"  [ngClass]="{'disabled': meta.current_page===1}">
+            <a  href="javascript:;" (click)="loadPage(meta.current_page - 1)" class="page-link"
+              tabindex="-1" >Précedent</a>
+          </li>
+          <li class="page-item" [ngClass]="{'active': i+1 === meta.current_page}"  *ngFor="let item of [].constructor(meta.last_page); let i = index">
+            <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
+          </li>
+          <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
+            <a (click)="loadPage(meta.last_page -1 )"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
