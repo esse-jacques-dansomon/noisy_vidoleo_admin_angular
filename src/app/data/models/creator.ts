@@ -11,6 +11,7 @@ export interface Creator {
   titre?: any;
   description?: any;
   answer_time?: any;
-  is_featured: number;
-  is_available: number;
+  is_featured:  boolean;
+  is_available: boolean;
+  is_blocked: boolean;
 }
