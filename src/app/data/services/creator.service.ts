@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {API_CONSTANTES} from "../../core/constants/API_CONSTANTES";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {RequestMeta} from "../models/request-meta";
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,16 @@ export class CreatorService {
 
   update(id: number, user: any): Observable<any> {
     return this.http.patch(this.uri + "/" + id, user);
+  }
+
+  call(meta: RequestMeta): Observable<any> {
+    return this.http.get(meta.path!, {
+      params: {
+        page: meta.current_page.toString(),
+        per_page: meta.per_page.toString()
+      }
+    });
+
   }
 
 

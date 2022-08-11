@@ -66,10 +66,7 @@
                   <tr *ngFor="let category of categories">
                     <td>
                       <div class="d-flex align-items-center">
-                        <div>
-                          <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
-                        </div>
-                        <div class="ms-2">
+                        <div class="ms">
                           <h6 class="mb-0 font-14">{{category.name}}</h6>
                         </div>
                       </div>
@@ -90,14 +87,14 @@
               <nav class="my-4" aria-label="...">
                 <ul class="pagination pagination-sm">
                   <li class="page-item"  [ngClass]="{'disabled': meta.current_page===1}">
-                    <a  href="javascript:;" (click)="loadPage(1)" class="page-link"
+                    <a  href="javascript:;" (click)="loadPage(meta.current_page - 1)" class="page-link"
                         tabindex="-1" >Précedent</a>
                   </li>
                   <li class="page-item" [ngClass]="{'active': i+1 === meta.current_page}"  *ngFor="let item of [].constructor(meta.last_page); let i = index">
                     <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
                   </li>
                   <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
-                    <a (click)="loadPage(meta.last_page)"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
+                    <a (click)="loadPage(meta.current_page + 1)"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
                 </ul>
               </nav>
             </div>

@@ -9,6 +9,7 @@ import {Category} from "../../../data/models/category";
 import {AppFormHelper} from "../../../core/app-helper/app-form-helper";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../../../data/services/category.service";
+import {BecameCreator} from "../../../data/models/became-creator";
 
 @Component({
   selector: 'app-sub-category-list',
@@ -105,9 +106,28 @@ export class SubCategoryListComponent implements OnInit {
   }
 
 
+
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getCategories();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.subCategoryService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.subCategories$ = of(data['data'] );
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   update(id: number){

@@ -86,7 +86,25 @@ export class UserListComponent implements OnInit {
 
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getUsers();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.userService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.users$ = of(data['data'] );
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 }
 

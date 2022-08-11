@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AppFormHelper} from "../../../core/app-helper/app-form-helper";
 import {Occasion} from "../../../data/models/occasion";
 import {OccasionType} from "../../../data/models/occasion-type";
+import {BecameCreator} from "../../../data/models/became-creator";
 
 @Component({
   selector: 'app-demand-option-list',
@@ -97,9 +98,28 @@ export class DemandOptionListComponent implements OnInit {
 
   }
 
+
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getAll();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.demandOptionService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.demandeOptions$ = of(data['data'] as DemandeOption[]);
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
 

@@ -71,7 +71,25 @@ export class TypeOccasionListComponent implements OnInit {
 
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getAll();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.typeOccasionService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.typesOccasions$ = of(data['data'] );
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   update(id: number){

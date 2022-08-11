@@ -5,28 +5,17 @@
     <div class="container-fluid">
       <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
         <div class="col mx-auto">
-          <div class="mb-4 text-center">
-            <img src="assets/images/logo-img.png" width="180" alt="" />
-          </div>
           <div class="card">
             <div class="card-body">
               <div class="border p-4 rounded">
                 <div class="text-center">
-                  <h3 class="">Sign in</h3>
-                  <p>Don't have an account yet? <a href="authentication-signup.html">Sign up here</a>
-                  </p>
-                </div>
-                <div class="d-grid mb-4 ">
-                  <a class="btn my-4 shadow-sm btn-white" href="javascript:;"> <span class="d-flex justify-content-center align-items-center">
-                          <img class="me-2" src="assets/images/icons/search.svg" width="16" alt="Image password">
-                          <span>Sign in with Google</span>
-											</span>
-                  </a> <a  class="btn btn-facebook"><i class="bx bxl-facebook"></i>Sign in with Facebook</a>
+                  <h3 class="">Connexion</h3>
+                  <br>
                 </div>
                 <div class="d-grid mb-3" *ngIf="error">
                   <a class="btn shadow-sm btn-danger" >
                     <span class="d-flex justify-content-center align-items-center">
-                          <span>informations de connexion non correctes</span>
+                          <span>{{errorMessage}}</span>
 											</span>
                   </a>
                 </div>
@@ -36,16 +25,17 @@
                 <div class="form-body">
                   <form class="row g-3 " [formGroup]=" loginForm"  (ngSubmit)="loginForm.valid && onSubmit()">
                     <div class="col-12">
-                      <label for="inputEmailAddress" class="form-label">Email Address</label>
-                      <input formControlName="email" type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address">
+                      <label for="inputEmailAddress" class="form-label">Email</label>
+                      <input formControlName="email" [ngClass]="validateFormControlName('email')"  type="email" class="form-control" id="inputEmailAddress" placeholder="Email">
                       <div class="text-danger mt-2" *ngIf="loginForm.get('email').invalid && (loginForm.get('email').touched||loginForm.get('email').dirty)">
-                        <span *ngIf="loginForm.get('email').errors['email']">Veuillez entrer une adresse valide</span>
+                        <span *ngIf="loginForm.get('email').errors['required']">Veuillez entrer une adresse valide</span>
                       </div>
                     </div>
                     <div class="col-12">
-                      <label for="inputChoosePassword" class="form-label">Enter Password</label>
+                      <label for="inputChoosePassword" class="form-label">Mot de Passe</label>
                       <div class="input-group" id="show_hide_password">
-                        <input formControlName="password" [type]="show ? 'texte' : 'password' " class="form-control border-end-0" id="inputChoosePassword" value="12345678" placeholder="Enter Password">
+                        <input [ngClass]="validateFormControlName('password')" formControlName="password" [type]="show ? 'texte' : 'password' "
+                               class="form-control border-end-0" id="inputChoosePassword" value="12345678" placeholder="Mot de passe">
                         <a (click)="showHidePassword()" class="input-group-text bg-transparent"><i class='bx' [ngClass]="show? 'bx-show': 'bx-hide'"></i></a>
                       </div>
                       <div class="text-danger mt-2" *ngIf="loginForm.get('password').invalid && (loginForm.get('password').touched||loginForm.get('password').dirty)">
@@ -55,14 +45,15 @@
                     <div class="col-md-6">
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Se souvenir</label>
                       </div>
                     </div>
-                    <div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
+                    <div class="col-md-6 text-end">	<a href="#">Mot De Passe Oublié ?</a>
                     </div>
                     <div class="col-12">
                       <div class="d-grid">
-                        <button *ngIf="!isLoading" type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i> Se connecter</button>
+                        <button *ngIf="!isLoading" [disabled]="loginForm.invalid" type="submit" class="btn btn-primary">
+                          <i class="bx bxs-lock-open"></i> Se connecter</button>
                         <button   *ngIf="isLoading"  class="btn btn-primary" type="button" disabled>
                           <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                           Loading...

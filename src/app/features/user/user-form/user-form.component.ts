@@ -68,8 +68,6 @@ export class UserFormComponent implements OnInit {
 
   }
 
-
-
   validateFormControlName(controlName: string) {
     if(this.userForm.get(controlName).valid && (this.userForm.get(controlName).touched||this.userForm.get(controlName).dirty))
     {

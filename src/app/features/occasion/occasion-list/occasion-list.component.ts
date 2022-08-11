@@ -124,10 +124,27 @@ export class OccasionListComponent implements OnInit {
   }
 
 
-
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getAll();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.occasionService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.occasions$ = of(data['data'] );
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   onUpdateButtonClicked(occasion : Occasion){

@@ -4,4 +4,5 @@ export interface RequestMeta {
   from: number;
   per_page: number;
   total: number;
+  path? : string ;
 }

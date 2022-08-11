@@ -6,6 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {DemandeService} from "../../../data/services/demande.service";
 import {Status} from "../../../core/enum/status";
+import {BecameCreator} from "../../../data/models/became-creator";
 
 @Component({
   selector: 'app-demande-list',
@@ -85,9 +86,28 @@ export class DemandeListComponent implements OnInit {
     this.router.navigateByUrl('dashboard/utilisateurs/edit/' + id).then(r => {} );
   }
 
+
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getAll();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.demandeService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.demandes$ = of(data['data'] );
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   statusBg(status: Status) {

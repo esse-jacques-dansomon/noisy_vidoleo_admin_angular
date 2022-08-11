@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {API_CONSTANTES} from "../../core/constants/API_CONSTANTES";
 import {Observable} from "rxjs";
 import {Role} from "../models/role";
+import {RequestMeta} from "../models/request-meta";
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,16 @@ export class UserService {
   getRoles(): Observable<any> {
     return this.http.get(API_CONSTANTES.URI_ROLES);
   }
+
+  call(meta: RequestMeta): Observable<any> {
+    return this.http.get(meta.path!, {
+      params: {
+        page: meta.current_page.toString(),
+        per_page: meta.per_page.toString()
+      }
+    });
+
+  }
+
 
 }

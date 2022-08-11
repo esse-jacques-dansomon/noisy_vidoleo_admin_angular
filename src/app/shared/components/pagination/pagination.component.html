@@ -1,0 +1,14 @@
+<nav aria-label="..." class="my-4">
+  <ul class="pagination pagination-sm">
+    <li [ngClass]="{'disabled': meta.current_page===1}" class="page-item">
+      <a (click)="loadPage(meta.current_page - 1)" class="page-link" href="javascript:;"
+         tabindex="-1">Précedent</a>
+    </li>
+    <li *ngFor="let item of [].constructor(meta.last_page); let i = index" [ngClass]="{'active': i+1 === meta.current_page}"
+        class="page-item">
+      <a (click)="loadPage(i+1)" class="page-link" href="javascript:;">{{i + 1}}</a>
+    </li>
+    <li [ngClass]="{'disabled': meta.current_page===meta.last_page}" class="page-item">
+      <a (click)="loadPage(meta.current_page + 1)" class="page-link" href="javascript:;" tabindex="-1">Suivant</a>
+  </ul>
+</nav>

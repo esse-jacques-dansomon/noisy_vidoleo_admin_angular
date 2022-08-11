@@ -4,8 +4,8 @@ import {MoyenRetrait} from "./moyen-retrait";
 
 export interface Retrait {
   id:           number;
-  "amount":    number;
-  "status":    string;
+  amount:    number;
+  status:    string;
   created_at:   string;
   account:      Account;
   creator:      Creator;

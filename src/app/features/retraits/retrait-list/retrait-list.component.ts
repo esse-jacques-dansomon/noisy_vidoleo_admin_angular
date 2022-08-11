@@ -91,7 +91,25 @@ export class RetraitListComponent implements OnInit {
 
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getAll();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.retraitService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.retraits$ = of(data['data'] );
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   statusBg(status: string) {

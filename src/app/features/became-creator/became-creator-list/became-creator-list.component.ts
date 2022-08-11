@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {BecameCreatorService} from "../../../data/services/became-creator.service";
 import {BecameCreator} from "../../../data/models/became-creator";
+import {CreatorService} from "../../../data/services/creator.service";
 
 @Component({
   selector: 'app-became-creator-list',
@@ -15,10 +16,20 @@ export class BecameCreatorListComponent implements OnInit {
 
   becameCreators$  = new Observable<BecameCreator[]>();
   isLoading: boolean = false;
-  meta : RequestMeta = { current_page: 1, from: 1, last_page: 1, per_page: 25, total: 0 } ;
+  meta : any;
+  status = [
+    {value: 'all', viewValue: 'tous'},
+    {value: 'accepted', viewValue: 'Accepté'},
+    {value: 'refused', viewValue: 'Refusé'},
+    {value: 'pending', viewValue: 'En attente'},
+    {value: 'cancel', viewValue: 'Annulé'},
+
+  ]
 
   searchText : string = '';
-  constructor(private becameCreatorService : BecameCreatorService, private toastr : ToastrService, private router : Router) {}
+  constructor(private becameCreatorService : BecameCreatorService, private toastr : ToastrService, private creatorService : CreatorService) {
+    this.meta = { current_page: 1, from: 1, last_page: 1, per_page: 25, total: 0 , path:''} as RequestMeta;
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -53,7 +64,9 @@ export class BecameCreatorListComponent implements OnInit {
         next: (data)=> {
           this.becameCreators$ = of(data['data'] as BecameCreator[]);
           console.log(data['data']);
+          console.log(data['meta']);
           this.meta = data['meta'] as RequestMeta;
+          this.isLoading = false;
         },
         error: (err)=> {
           console.log(err);
@@ -81,14 +94,20 @@ export class BecameCreatorListComponent implements OnInit {
     )
   }
 
-  update(id: number){
-    this.router.navigateByUrl('dashboard/utilisateurs/edit/' + id).then(r => {} );
+  create(becameCreator : BecameCreator){
+    this.creatorService.create(becameCreator).subscribe(
+      {
+        next: (data)=> {
+          this.toastr.success('Utilisateur créé avec succès', 'Succès');
+          this.getAll();
+        },
+        error: err => {
+          this.toastr.error(err.message(), 'Erreur');
+        }
+      }
+    )
   }
 
-  loadPage(number: number) {
-    this.meta.current_page = number;
-    this.getAll();
-  }
 
   statusBg(status : string){
     if(status == 'refused'){
@@ -102,7 +121,49 @@ export class BecameCreatorListComponent implements OnInit {
 
   }
 
-  filter(all: string) {
+  filterByStatus(status: string) {
+    this.isLoading = true;
+    if(status == 'all'){
+      this.getAll();
+    }else{
+      this.becameCreatorService.status(status).subscribe(
+        {
+          next: (data)=> {
+            this.becameCreators$ = of(data['data'] as BecameCreator[]);
+            this.meta = data['meta'] as RequestMeta;
+            console.log(this.meta);
+            this.isLoading = false;
+
+          },
+          error: (err)=> {
+            this.isLoading = false;
+          }
+        }
+      )
+    }
+  }
+
+
+  loadPage(number: number) {
+    this.meta.current_page = number;
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.becameCreatorService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.becameCreators$ = of(data['data'] as BecameCreator[]);
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
 
   }
 }

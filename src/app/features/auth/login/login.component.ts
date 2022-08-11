@@ -12,13 +12,29 @@ import {ToastrService} from "ngx-toastr";
 export class LoginComponent implements OnInit {
   show: boolean = false;
   error: boolean = false;
+  errorMessage: string = '';
   isLoading : boolean = false
 
   loginForm : any;
   constructor(private authService: AuthService, private  router : Router, private toastr: ToastrService) {
+    this.authService.verifyToken().subscribe(
+      {
+      next: (isLoggedIn) => {
+      if (isLoggedIn.role.name=='admin') {
+        this.router.navigate(['/dashboard']);
+      }else{
+        localStorage.clear();
+        this.router.navigate(['/']);
+      }
+    },
+    error :(err) => {
+      localStorage.clear();
+    }
+      }
+    );
     this.loginForm = new FormGroup(
       {
-        'email': new FormControl('', [Validators.email]),
+        'email': new FormControl('', [Validators.required, Validators.email]),
         'password': new FormControl('', [Validators.required]),
       }
     )
@@ -38,13 +54,20 @@ export class LoginComponent implements OnInit {
       {
         next: (res)=> {
           this.isLoading = false;
-          this.toastr.success('Login Successful', 'Success');
-          this.router.navigateByUrl('/dashboard').then(r => {
-          });
+          if(res.user.role.name==='admin'){
+            this.toastr.success('Login Successful', 'Success');
+            this.router.navigateByUrl('/dashboard').then(r => {
+            });
+          }else{
+            this.error = true;
+            this.errorMessage = "vous n'avez pas les droits pour accéder à cette page"
+          }
+
         },
         error : (err)=> {
           this.error = true;
           this.isLoading = false;
+          this.errorMessage = "identifiants incorrects";
         },
         complete : () => {
           this.isLoading = false;
@@ -52,5 +75,19 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  public validateFormControlName(controlName: string) {
+    if(this.loginForm.get(controlName).valid && (this.loginForm.get(controlName).touched||this.loginForm.get(controlName).dirty))
+    {
+      return 'is-valid';
+    }
+    else if(this.loginForm.get(controlName).invalid && (this.loginForm.get(controlName).touched||this.loginForm.get(controlName).dirty)){
+      return  'is-invalid'
+    }else{
+      return ''
+    }
+
+  }
+
 
 }

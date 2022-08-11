@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {API_CONSTANTES} from "../../core/constants/API_CONSTANTES";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {RequestMeta} from "../models/request-meta";
+import {PaginationService} from "./pagination.service";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +35,7 @@ export class BecameCreatorService {
     return this.http.post(this.uri, user);
   }
 
-  search(search: String): Observable<any> {
+  search(search: string): Observable<any> {
     return this.http.get(this.uri + "/search/" + search);
   }
 
@@ -41,4 +43,17 @@ export class BecameCreatorService {
     return this.http.patch(this.uri + "/" + id, user);
   }
 
+  status(status: string) :Observable<any>{
+    return this.http.get(this.uri + "/status/" + status);
+  }
+
+  call(meta: RequestMeta): Observable<any> {
+    return this.http.get(meta.path!, {
+      params: {
+        page: meta.current_page.toString(),
+        per_page: meta.per_page.toString()
+      }
+    });
+
+  }
 }

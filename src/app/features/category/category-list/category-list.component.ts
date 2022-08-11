@@ -7,6 +7,7 @@ import {CategoryService} from "../../../data/services/category.service";
 import {Category} from "../../../data/models/category";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AppFormHelper} from "../../../core/app-helper/app-form-helper";
+import {BecameCreator} from "../../../data/models/became-creator";
 
 @Component({
   selector: 'app-category-list',
@@ -125,9 +126,28 @@ export class CategoryListComponent implements OnInit {
 
   }
 
+
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getCategories();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.userService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.categories$ = of(data['data'] as Category[]);
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   onUpdateButtonCLicked(category : Category){

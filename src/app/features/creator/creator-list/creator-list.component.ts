@@ -5,6 +5,7 @@ import {RequestMeta} from "../../../data/models/request-meta";
 import {CreatorService} from "../../../data/services/creator.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {BecameCreator} from "../../../data/models/became-creator";
 
 @Component({
   selector: 'app-creator-list',
@@ -15,7 +16,7 @@ export class CreatorListComponent implements OnInit {
 
   creators$  = new Observable<Creator[]>();
   isLoading: boolean = false;
-  meta : RequestMeta = { current_page: 1, from: 1, last_page: 1, per_page: 25, total: 0 } ;
+  meta : RequestMeta = { current_page: 1, from: 1, last_page: 1, per_page: 10, total: 0 } ;
 
   searchText : string = '';
   constructor(private creatorService : CreatorService, private toastr : ToastrService, private router : Router) {}
@@ -93,9 +94,28 @@ export class CreatorListComponent implements OnInit {
     );
   }
 
+
   loadPage(number: number) {
     this.meta.current_page = number;
-    this.getAll();
+    this.getPagination();
+  }
+
+  getPagination(){
+    this.creatorService.call(this.meta).subscribe(
+      {
+        next: (data)=> {
+          this.creators$ = of(data['data']);
+          this.meta = data['meta'] as RequestMeta;
+          console.log(this.meta);
+          this.isLoading = false;
+
+        },
+        error: (err)=> {
+          this.isLoading = false;
+        }
+      }
+    )
+
   }
 
   block(creator : Creator){

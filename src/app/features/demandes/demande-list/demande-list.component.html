@@ -71,15 +71,6 @@
 <div class="card">
   <div class="card-body" *ngIf="!isLoading">
     <div class="d-lg-flex align-items-center  gap-3">
-<!--      <div class="position-relative">-->
-<!--        <input (change)="search()" type="text" [(ngModel)]="searchText" class="form-control ps-5 radius-30" placeholder="Rechercher un utilisateur">-->
-<!--        <span class="position-absolute top-50 product-show translate-middle-y">-->
-<!--            <i class="bx bx-search"></i>-->
-<!--          </span>-->
-<!--      </div>-->
-<!--      <div class="ms-auto"><a href="" routerLink="/dashboard/utilisateurs/ajouter/" class="btn btn-primary radius-30 mt-2 mt-lg-0">-->
-<!--        <i class="bx bxs-plus-square"></i>Ajouter un utilisateur</a>-->
-<!--      </div>-->
     </div>
     <div class="table-responsive" *ngIf="demandes$ | async as demandes" >
       <table class="table mb-0" >
@@ -135,7 +126,7 @@
           <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
         </li>
         <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
-          <a (click)="loadPage(meta.last_page -1 )"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
+          <a (click)="loadPage(meta.current_page + 1 )"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
       </ul>
     </nav>
   </div>

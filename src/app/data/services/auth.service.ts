@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {LoginModel} from "../models/login-model";
 import {User} from "../models/user";
@@ -12,10 +12,15 @@ export class
 AuthService {
 
   private _isLogin : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private _user : BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _user = new BehaviorSubject<User>({} as User);
+
+  isLoggedIn$ = this._isLogin.asObservable();
+  user$ = this._user.asObservable();
 
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient) {
+    // this.verifyToken()
+  }
 
   public login(email: string, password: string) : Observable<LoginModel>{
     return this.http.post<LoginModel>(API_CONSTANTES.URI_LOGIN, {email, password}).pipe(
@@ -29,7 +34,6 @@ AuthService {
           },
           error: (err)=> {
             this._isLogin.next(false);
-            this._user.next(null);
             localStorage.removeItem(API_CONSTANTES.TOKEN_KEY);
           }
         }
@@ -42,17 +46,47 @@ AuthService {
     this.http.get(API_CONSTANTES.URI_LOGOUT);
     localStorage.removeItem(API_CONSTANTES.TOKEN_KEY);
     this._isLogin.next(false);
-    this._user.next(null);
   }
 
   public verifyToken() : Observable<User> {
-    return this.http.get<User>(API_CONSTANTES.URI_USER).pipe(
+    let token = localStorage.getItem(API_CONSTANTES.TOKEN_KEY);
+    if (token == '' || token == null){
+      token ='';
+    }
+    const header = new HttpHeaders({
+      'content-type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json'
+    });
+    return this.http.get<User>(API_CONSTANTES.URI_USER,  {headers: header, } ).pipe(
       tap(
         {
           next: (res)=> {
-            this._isLogin.next(true);
-            this._user.next(res);
+            if(res.role.name==="admin"){
+              this._isLogin.next(true);
+              this._user.next(res);
+              alert(res.role.name);
+              // console.log(this._user.getValue());
+            }else{
+              this._isLogin.next(false);
+              this._user.next({} as User);
+              localStorage.clear();
+              alert("vous n'avez pas les droits pour accéder à cette page 1");
+            }
           },
+
+          error: (err)=> {
+            this._isLogin.next(false);
+            this._user.next({} as User);
+            localStorage.clear();
+            alert("vous n'avez pas les droits pour accéder à cette page 2");
+
+          },
+
+          complete: ()=> {
+            alert("complete");
+          }
+
         }
       )
     )
@@ -62,14 +96,26 @@ AuthService {
     return this._isLogin.asObservable();
   }
 
-  public getUser() : Observable<any> {
-    return this._user.asObservable();
-  }
   public  getUserValue(): User {
-    return this._user.getValue();
+    return this._user.value;
   }
 
   public setUser(user : User) {
     this._user.next(user);
+  }
+
+  getUser() {
+    this.verifyToken().subscribe(
+      (res) => {
+        if(res.role.name==='Admin'){
+          this._user.next(res);
+          this._isLogin.next(true);
+        }else{
+          this._user.next({} as User);
+          this._isLogin.next(false);
+        }
+      }
+    )
+    return this._user.getValue();
   }
 }

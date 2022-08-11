@@ -4,6 +4,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import {RouterModule} from "@angular/router";
 import { LoaderSubmitComponent } from './components/loader-submit/loader-submit.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 
 
@@ -11,7 +12,8 @@ import { LoaderSubmitComponent } from './components/loader-submit/loader-submit.
   declarations: [
     LoaderComponent,
     BreadcrumbComponent,
-    LoaderSubmitComponent
+    LoaderSubmitComponent,
+    PaginationComponent
   ],
   exports: [
     BreadcrumbComponent,

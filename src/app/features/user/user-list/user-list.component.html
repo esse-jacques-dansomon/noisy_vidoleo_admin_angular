@@ -62,7 +62,7 @@
             <a (click)="loadPage(i+1)"  href="javascript:;" class="page-link" >{{i+1}}</a>
           </li>
           <li class="page-item" [ngClass]="{'disabled': meta.current_page===meta.last_page}">
-            <a (click)="loadPage(meta.last_page -1 )"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
+            <a (click)="loadPage(meta.current_page + 1 )"  class="page-link" href="javascript:;" tabindex="-1" >Suivant</a>
         </ul>
       </nav>
     </div>
