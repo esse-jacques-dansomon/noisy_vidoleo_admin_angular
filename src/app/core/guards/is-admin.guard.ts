@@ -15,8 +15,8 @@ export class IsAdminGuard implements CanActivate {
     return this.authService.isLoggedIn$.pipe(
       tap(isLoggedIn => {
         if (!isLoggedIn) {
-          this.router.navigateByUrl('/').then(r => {
-          });
+          this.authService.verifyToken();
+          // this.router.navigateByUrl('/').then(r => {});
         }
       })
 

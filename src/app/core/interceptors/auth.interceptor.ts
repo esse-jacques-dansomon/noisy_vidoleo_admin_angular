@@ -7,11 +7,12 @@ import {
 } from '@angular/common/http';
 import {catchError, Observable, retry, throwError} from 'rxjs';
 import {API_CONSTANTES} from "../constants/API_CONSTANTES";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private toastr : ToastrService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = localStorage.getItem(API_CONSTANTES.TOKEN_KEY)
@@ -34,7 +35,8 @@ export class AuthInterceptor implements HttpInterceptor {
           errorMessage = `Error Status: ${error.status}\nMessage: ${error.message}`;
         }
         console.log(errorMessage);
-        alert(errorMessage);
+        // alert(errorMessage);
+        // this.toastr.error(error.message);
         return throwError(()=> errorMessage);
       })
     );

@@ -1,16 +1,5 @@
 <!--breadcrumb-->
-<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-  <div class="breadcrumb-title pe-3">Utilisateurs</div>
-  <div class="ps-3">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">Retraits</li>
-      </ol>
-    </nav>
-  </div>
-</div>
+<app-breadcrumb breadcrumb="Retraits"></app-breadcrumb>
 <!--end breadcrumb-->
 <div class="card">
   <div class="card-body" *ngIf="!isLoading">
@@ -21,6 +10,9 @@
             <i class="bx bx-search"></i>
           </span>
       </div>
+    </div>
+    <div>
+      pas de retraits
     </div>
     <div class="table-responsive" *ngIf="retraits$ | async as retraits" >
       <table class="table mb-0" >
@@ -51,7 +43,7 @@
           <td>{{retrait.creator.phone}}</td>
           <td>{{retrait.created_at}}</td>
           <td>{{retrait.moyenRetrait.type_moyen.name}}</td>
-          <td>{{retrait.amount}}</td>
+          <td>{{retrait.id * 570}} FCFA</td>
           <td><div class="badge rounded-pill  bg-light-success p-2 text-uppercase px-3"
                    [ngClass]="statusBg(retrait.status)">
             <i class='bx bxs-circle me-1'></i>{{retrait.status}}</div>

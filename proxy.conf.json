@@ -1,7 +1,7 @@
 {
   "api": {
-    "target": "http://localhost:8000",
-    "secure": false,
+    "target": "https://sea-lion-app-44oyx.ondigitalocean.app/api/",
+    "secure": true,
     "changeOrigin": true
   }
 }

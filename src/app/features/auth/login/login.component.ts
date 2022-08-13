@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../data/services/auth.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -17,21 +18,7 @@ export class LoginComponent implements OnInit {
 
   loginForm : any;
   constructor(private authService: AuthService, private  router : Router, private toastr: ToastrService) {
-    this.authService.verifyToken().subscribe(
-      {
-      next: (isLoggedIn) => {
-      if (isLoggedIn.role.name=='admin') {
-        this.router.navigate(['/dashboard']);
-      }else{
-        localStorage.clear();
-        this.router.navigate(['/']);
-      }
-    },
-    error :(err) => {
-      localStorage.clear();
-    }
-      }
-    );
+
     this.loginForm = new FormGroup(
       {
         'email': new FormControl('', [Validators.required, Validators.email]),
@@ -40,7 +27,11 @@ export class LoginComponent implements OnInit {
     )
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.verifyToken();
+
+
+  }
 
   public showHidePassword() {
     this.show = !this.show;

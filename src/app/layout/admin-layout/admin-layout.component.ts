@@ -10,9 +10,7 @@ import {User} from "../../data/models/user";
 })
 export class AdminLayoutComponent implements OnInit {
 
-  constructor(public authService : AuthService, private router :Router) {
-      // this.authService.verifyToken();
-
+  constructor() {
   }
 
   ngOnInit(): void {

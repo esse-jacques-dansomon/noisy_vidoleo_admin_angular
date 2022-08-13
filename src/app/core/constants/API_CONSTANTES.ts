@@ -1,5 +1,6 @@
 export  abstract  class  API_CONSTANTES {
 
+  // private static BASE_URL = 'https://sea-lion-app-44oyx.ondigitalocean.app/api/';
   private static BASE_URL = 'http://localhost:8000/api/';
 
   //uris auth

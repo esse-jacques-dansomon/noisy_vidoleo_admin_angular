@@ -9,7 +9,7 @@
               <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-auto g-2">
                 <div class="col">
                   <div class="position-relative">
-                    <input type="text" class="form-control ps-5" placeholder="Search Product..."> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                    <input type="text" class="form-control ps-5" placeholder="..."> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
                   </div>
                 </div>
                 <div class="col">
@@ -83,7 +83,6 @@
           <th>Pseudo social</th>
           <th>Social</th>
           <th>Dispo</th>
-          <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -104,13 +103,7 @@
           <td><div class="badge rounded-pill  bg-light-success p-2 text-uppercase px-3"
                  [ngClass]="statusBg(demand.status)">
             <i class='bx bxs-circle me-1'></i>{{demand.status}}</div></td>
-          <td>
-            <div class="d-flex order-actions">
-              <a (click)="update(demand.id)" class=""><i class='bx bxs-show'></i></a>
-              <a (click)="update(demand.id)" class="ms-2"><i class='bx bxs-edit'></i></a>
-              <a (click)="delete(demand.id)" class="ms-2"><i class='bx bxs-trash'></i></a>
-            </div>
-          </td>
+
         </tr>
         </tbody>
       </table >
