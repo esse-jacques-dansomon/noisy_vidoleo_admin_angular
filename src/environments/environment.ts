@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api : 'http://localhost:8080/api/'
+  api : 'http://apinoisy.dreamhosters.coms/api/',
+  // api : 'http://127.0.0.1:8000/api/'
 };
 
 /*

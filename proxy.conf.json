@@ -1,7 +1,7 @@
 {
   "api": {
-    "target": "https://sea-lion-app-44oyx.ondigitalocean.app/api/",
-    "secure": true,
+    "target": "http://apinoisy.dreamhosters.com/api/",
+    "secure": false,
     "changeOrigin": true
   }
 }

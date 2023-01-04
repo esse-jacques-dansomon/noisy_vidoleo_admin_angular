@@ -1,7 +1,8 @@
+import {environment} from "../../../environments/environment";
+
 export  abstract  class  API_CONSTANTES {
 
-  // private static BASE_URL = 'https://sea-lion-app-44oyx.ondigitalocean.app/api/';
-  private static BASE_URL = 'http://localhost:8000/api/';
+  private static BASE_URL = environment.api;
 
   //uris auth
   static readonly  URI_LOGIN = this.BASE_URL + 'login';
