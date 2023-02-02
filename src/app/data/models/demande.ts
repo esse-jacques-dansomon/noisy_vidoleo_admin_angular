@@ -3,6 +3,7 @@ import {OccasionType} from "./occasion-type";
 import {Creator} from "./creator";
 import {DemandeOption} from "./demande-option";
 import {User} from "./user";
+import {CreatorOccasionType} from "./creator-occasion-type";
 
 export interface Demande {
   id:               number;
@@ -14,11 +15,12 @@ export interface Demande {
   message:          string;
   client_id:        number;
   client:           User;
-  creator:          Creator;
   occasion_type:    OccasionType;
   options:          DemandeOption[];
   status:           Status;
   created_at:       Date;
   updated_at:       Date;
+  creatorOccasionType: CreatorOccasionType;
+
 
 }

@@ -25,7 +25,6 @@
                         <li><a class="dropdown-item" >En Cours</a></li>
                         <li><a class="dropdown-item" >Traiter</a></li>
                         <li><a class="dropdown-item" >Annuler</a></li>
-                        <li><a class="dropdown-item" >Annuler</a></li>
                       </ul>
                     </div>
                   </div>
@@ -96,7 +95,14 @@
           </td>
           <td>{{demand.receiver}} FCFA</td>
           <td>{{demand.client.first_name}}</td>
-          <td>{{demand.creator.first_name}}</td>
+          <td>
+            <ng-container *ngIf="demand.creatorOccasionType">
+              {{demand.creatorOccasionType.creator.first_name}}
+            </ng-container>
+            <ng-container *ngIf="!demand.creatorOccasionType">
+              pas de createur
+            </ng-container>
+          </td>
           <td>{{demand.price.toPrecision(2)}}</td>
           <td>{{demand.created_at}}</td>
           <td>{{demand.updated_at}}</td>

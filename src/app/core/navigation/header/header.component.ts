@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../../data/services/auth.service";
 import {API_CONSTANTES} from "../../constants/API_CONSTANTES";
 import {Router} from "@angular/router";
+import {AuthServiceJwt} from "../../services/AuthServiceJwt";
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService : AuthService) {}
+  constructor(public authService : AuthServiceJwt) {}
 
   ngOnInit(): void {
 

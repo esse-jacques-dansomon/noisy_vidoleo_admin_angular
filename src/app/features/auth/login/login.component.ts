@@ -4,6 +4,7 @@ import {AuthService} from "../../../data/services/auth.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {tap} from "rxjs";
+import {AuthServiceJwt} from "../../../core/services/AuthServiceJwt";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   isLoading : boolean = false
 
   loginForm : any;
-  constructor(private authService: AuthService, private  router : Router, private toastr: ToastrService) {
+  constructor(private authService: AuthService, private  router : Router, private toastr: ToastrService, private _jwtAuthService : AuthServiceJwt) {
 
     this.loginForm = new FormGroup(
       {
@@ -28,9 +29,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.verifyToken();
-
-
+    // this.authService.verifyToken();
+    if(this._jwtAuthService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']).then(r => console.log(r));
+    }
   }
 
   public showHidePassword() {
@@ -41,13 +43,14 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.error = false;
 
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
+    this._jwtAuthService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
       {
         next: (res)=> {
+          console.log(res)
           this.isLoading = false;
           if(res.user.role.name==='admin'){
-            this.toastr.success('Login Successful', 'Success');
             this.router.navigateByUrl('/dashboard').then(r => {
+              this.toastr.success('Login Successful', 'Success');
             });
           }else{
             this.error = true;

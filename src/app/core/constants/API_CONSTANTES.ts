@@ -5,8 +5,8 @@ export  abstract  class  API_CONSTANTES {
   private static BASE_URL = environment.api;
 
   //uris auth
-  static readonly  URI_LOGIN = this.BASE_URL + 'login';
-  static readonly URI_LOGOUT = this.BASE_URL +'logout';
+  static readonly  URI_LOGIN = this.BASE_URL + 'jwt/login';
+  static readonly URI_LOGOUT = this.BASE_URL +'jwt/logout';
   static readonly URI_REGISTER =  this.BASE_URL +'register';
   static readonly URI_USER = this.BASE_URL + 'user';
 
