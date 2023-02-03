@@ -24,7 +24,7 @@ export  abstract  class  API_CONSTANTES {
   static readonly URI_OPTIONS = this.BASE_URL + 'options';
 
   //storage key
-  static  readonly  TOKEN_KEY = 'token';
+  static  readonly  TOKEN_KEY = 'a_token';
   static  readonly  USER_KEY = 'user';
 
 

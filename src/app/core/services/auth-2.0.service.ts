@@ -5,14 +5,14 @@ import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {LoginResponse} from "../data/LoginResponse";
+import {API_CONSTANTES} from "../constants/API_CONSTANTES";
 
 
 @Injectable({
    providedIn: 'root'
 })
 export class Auth20Service {
-
-
+  private _tokenName = API_CONSTANTES.TOKEN_KEY
    private readonly apiUrl = `${environment.apiUrl}api/account`;
    private timer: Subscription;
    private _user = new BehaviorSubject<LoginResponse>(null);
@@ -65,7 +65,7 @@ export class Auth20Service {
 
 
    clearLocalStorage() {
-      localStorage.removeItem('access_token');
+      localStorage.removeItem(this._tokenName);
       localStorage.removeItem('refresh_token');
       localStorage.setItem('logout-event', 'logout' + Math.random());
    }
@@ -101,12 +101,12 @@ export class Auth20Service {
    }
 
    setLocalStorage(x: LoginResponse) {
-      localStorage.setItem('access_token', x.access_token);
+      localStorage.setItem(this._tokenName, x.access_token);
       localStorage.setItem('refresh_token', x.access_token);
    }
 
    private getTokenRemainingTime() {
-      const accessToken = localStorage.getItem('access_token');
+      const accessToken = localStorage.getItem(this._tokenName);
       if (!accessToken) {
          return 0;
       }
