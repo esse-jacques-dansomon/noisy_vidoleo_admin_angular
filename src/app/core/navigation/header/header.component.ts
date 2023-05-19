@@ -18,4 +18,8 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  logout(event:any) {
+    this.authService.logout();
+  }
+
 }

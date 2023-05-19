@@ -66,7 +66,7 @@ export class AuthServiceJwt {
         finalize(() => {
           this.clearLocalStorage();
           // this.stopTokenTimer();
-          this.router.navigate(['/se-connecter']);
+          this.router.navigate(['/']);
         })
       ).subscribe();
   }
