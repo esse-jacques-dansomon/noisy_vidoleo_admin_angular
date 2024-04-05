@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "afrofame"
+  },
+  "targets": {
+    "afrofame": {
+      "hosting": {
+        "site": "afrofame-admin",
+        "afrofame-admin": [
+          "afrofame-admin"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

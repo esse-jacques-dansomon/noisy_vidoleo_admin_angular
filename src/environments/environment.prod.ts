@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  api : 'http://apinoisy.dreamhosters.com/api/',
-  apiUrl : 'http://apinoisy.dreamhosters.coms/api/',
+  api : 'https://afrofame.jacques-dansomon.com/api/',
+  apiUrl : 'https://afrofame.jacques-dansomon.com/api/',
 };
